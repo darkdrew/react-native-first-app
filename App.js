@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
+// childs
+import ListItem from './src/Components/ListItem';
 export default class App extends React.Component {
   constructor(props){
     super(props);
@@ -13,7 +15,7 @@ export default class App extends React.Component {
   onSubmitPlaces = () => {
     const emptyPlaces = this.state.placesName.trim() === '';
     if(emptyPlaces) return;
-    
+
     this.setState(prevState => {
       return {
         places: prevState.places.concat(prevState.placesName)
@@ -23,7 +25,7 @@ export default class App extends React.Component {
 
   render() {
     const placesDisplay = this.state.places.map( (place, i) => {
-      return <Text key={i}>{place}</Text>
+      return <ListItem key={i} place={place} />
     })
     return (
       <View style={styles.container}>
@@ -41,7 +43,7 @@ export default class App extends React.Component {
             onPress={this.onSubmitPlaces}
           />
         </View>
-        <View>{placesDisplay}</View>
+        <View style={styles.placesListContainer}>{placesDisplay}</View>
       </View>
     );
   }
@@ -65,5 +67,8 @@ const styles = StyleSheet.create({
   },
   searchBarBtn: {
     width: '30%'
-  }
+  },
+  placesListContainer: {
+    width: '100%',
+  },
 });
