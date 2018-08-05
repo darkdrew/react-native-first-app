@@ -1,14 +1,47 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export default class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      placesName: '',
+      places: [],
+    }
+  }
+  
+  onSubmitPlaces = () => {
+    const emptyPlaces = this.state.placesName.trim() === '';
+    if(emptyPlaces) return;
+    
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat(prevState.placesName)
+      };
+    })
+  }
+
   render() {
+    const placesDisplay = this.state.places.map( (place, i) => {
+      return <Text key={i}>{place}</Text>
+    })
     return (
       <View style={styles.container}>
-        <h1>First Setup For Github</h1>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Text>Andrew Wants Macbook!</Text>
+        <View style={styles.searchBarContainer}>
+          <TextInput 
+            style={styles.searchBar}
+            placeholder={"search cool place"}
+            onChangeText={(placesName) => this.setState({placesName})}
+            value={this.state.placesName} 
+          />
+          <Button 
+            style={styles.searchBarBtn}
+            title={"Add"}
+            onPress={this.onSubmitPlaces}
+          />
+        </View>
+        <View>{placesDisplay}</View>
       </View>
     );
   }
@@ -19,6 +52,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
+  searchBarContainer: {
+    // width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  searchBar: {
+    width: '60%',
+  },
+  searchBarBtn: {
+    width: '30%'
+  }
 });
